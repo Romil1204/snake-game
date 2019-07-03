@@ -1,0 +1,130 @@
+<html>
+	<head>
+		<title>Snake Game</title>
+		<style>
+			body{
+				margin:0;
+			}
+			#main{
+				background-color: dodgerblue;
+				height:600px;
+				width:600px;
+				position:relative;
+			}
+			#snake{
+				background-color: green;
+				height:30px;
+				width:30px;
+				position:absolute;
+				z-index:100;
+			}
+			#food{
+				background-color: red;
+				height:30px;
+				width:30px;
+				position:absolute;
+				
+			}
+			#info{
+				width:600px;
+				height:50px;
+				background-color: #eee;
+				font-size: 28px;
+				text-align:center;
+				line-height:50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div id="snake"></div>
+			<div id="food"></div>
+		</div>
+		<div id="info">0</div>
+		<script>
+			var posX=0;
+			var posY=0;
+
+			var fX=0;
+			var fY=0;
+
+			var vX=30;
+			var vY=0;
+
+			var score=0;
+
+			start();
+
+			document.onkeydown=divDir;                     //onkeydown is an event which detects the pressing of any  button
+
+			function divDir(e){                  //to detect which key is pressed by comparing it to the particular key's code
+				if(e.keyCode==37){                  //using e.keyCode
+					vX=-30;
+					vY=0;
+				}
+				if(e.keyCode==38){
+					vY=-30;
+					vX=0;
+				}
+				if(e.keyCode==39){
+					vX=30;
+					vY=0;
+				}
+				if(e.keyCode==40){
+					vY=30;
+					vX=0;
+				}
+			}
+
+			function start(){                                            //start the game
+				drawFood();
+				setInterval(move,100);
+			}
+
+			function drawFood(){                                        //to draw food at random positions
+				fX=Math.floor(Math.random()*19)*30;
+				fY=Math.floor(Math.random()*19)*30;
+				document.getElementById("food").style.left=fX+"px";
+                document.getElementById("food").style.top=fY+"px";
+			}
+
+			function updateScore(){                                      //to update the score on the html screen
+				document.getElementById("info").innerHTML=score;
+			}
+
+			function move(){                                             //to calculate the score amd position of snake div
+				posX=posX+vX;
+				posY=posY+vY;
+
+				if(posX==fX && posY==fY){
+					score++;
+					drawFood();
+					updateScore();
+				}
+				if(posX>570){
+					posX=0;
+					score=0;
+					updateScore();
+				}
+				if(posX<0){
+					posX=570;
+					score=0;
+					updateScore();
+				}
+				if(posY<0){
+					posY=570;
+					score=0;
+					updateScore();
+				}
+				if(posY>570){
+					posY=0;
+					score=0;
+					updateScore();
+				}
+
+				document.getElementById("snake").style.left=posX+"px";
+                document.getElementById("snake").style.top=posY+"px";
+			}
+		</script>
+	</body>
+</html>
